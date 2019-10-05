@@ -1,0 +1,290 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;ARM1.s Source code for my first program on the ARM Cort
+                       ex M3
+    2 00000000         ;Function Modify some registers so we can observe the re
+                       sults in the debugger
+    3 00000000         ;Author - Dave Duguid
+    4 00000000         ;Modified August 2012 Trevor Douglas
+    5 00000000         ; Directives
+    6 00000000                 PRESERVE8
+    7 00000000                 THUMB
+    8 00000000         
+    9 00000000         ; Vector Table Mapped to Address 0 at Reset, Linker requ
+                       ires __Vectors to be exported
+   10 00000000                 AREA             RESET, DATA, READONLY
+   11 00000000                 EXPORT           __Vectors
+   12 00000000         
+   13 00000000         
+   14 00000000 20002000 
+                       __Vectors
+                               DCD              0x20002000  ; stack pointer val
+                                                            ue when stack is em
+                                                            pty
+   15 00000004 00000000        DCD              Reset_Handler ; reset vector
+   16 00000008         
+   17 00000008                 ALIGN
+   18 00000008         
+   19 00000008         
+   20 00000008         ;My program, Linker requires Reset_Handler and it must b
+                       e exported
+   21 00000008                 AREA             MYCODE, CODE, READONLY
+   22 00000000                 ENTRY
+   23 00000000         
+   24 00000000                 EXPORT           Reset_Handler
+   25 00000000         
+   26 00000000                 ALIGN
+   27 00000000         Reset_Handler
+                               PROC                         ;We only have one l
+                                                            ine of actual appli
+                                                            cation code   MAIN
+   28 00000000         
+   29 00000000         
+   30 00000000         
+   31 00000000         
+   32 00000000         
+   33 00000000 F04F 0000       MOV              R0, #0x00
+   34 00000004         
+   35 00000004         
+   36 00000004         
+   37 00000004         Awesome
+   38 00000004         
+   39 00000004 F100 0001       ADD              R0, #1
+   40 00000008 2804            CMP              R0, #4
+   41 0000000A D1FB            BNE              Awesome
+   42 0000000C         
+   43 0000000C F04F 0009       MOV              R0, #9      ;; Just an extra li
+                                                            ne
+   44 00000010         
+   45 00000010 F7FF FFFE       BL               function1
+   46 00000014         
+   47 00000014 F7FF FFFE       BL               factorial
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   48 00000018         
+   49 00000018 F7FF FFFE       BL               vowelCount
+   50 0000001C         
+   51 0000001C         
+   52 0000001C E7FE            B                Reset_Handler
+   53 0000001E         
+   54 0000001E                 ENDP
+   55 0000001E         
+   56 0000001E         string1
+   57 0000001E 45 4E 53 
+              45 20 33 
+              35 32 20 
+              69 73 20 
+              66 75 6E 
+              20 61 6E 
+              64 20 49 
+              20 61 6D 
+              20 6C 65 
+              61 72 6E 
+              69 6E 67 
+              20 41 52 
+              4D 20 61 
+              73 73 65 
+              6D 62 6C 
+              79 21 00         DCB              "ENSE 352 is fun and I am learn
+ing ARM assembly!",0
+   58 0000004E         
+   59 0000004E         
+   60 0000004E         ALIGN
+   61 0000004E         function1
+                               PROC                         ;OPEN CURLY BRACES
+   62 0000004E         anotherSub
+   63 0000004E         ;;This is the guts of the subroutine
+   64 0000004E F04F 0202       MOV              R2, #0x2
+   65 00000052         
+   66 00000052         
+   67 00000052         
+   68 00000052         ;B anotherSub
+   69 00000052         
+   70 00000052 4770            BX               LR
+   71 00000054         
+   72 00000054                 ENDP
+   73 00000054         
+   74 00000054         
+   75 00000054         ;Input is R1 (number to calculate factorial)
+   76 00000054         ;Return value is R2
+   77 00000054                 ALIGN
+   78 00000054         factorial
+                               PROC
+   79 00000054         
+   80 00000054         
+   81 00000054 4770            BX               LR
+   82 00000056                 ENDP
+   83 00000056         
+   84 00000056         
+   85 00000056         
+   86 00000056         
+   87 00000056         
+   88 00000056         ; comments input/output
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   89 00000056 00 00           ALIGN
+   90 00000058         vowelCount
+                               PROC
+   91 00000058         
+   92 00000058 4770            BX               LR
+   93 0000005A         
+   94 0000005A         
+   95 0000005A         
+   96 0000005A 00 00           ALIGN
+   97 0000005C         string2
+   98 0000005C 45 4E 53 
+              45 20 33 
+              35 32 20 
+              69 73 20 
+              66 75 6E 
+              20 61 6E 
+              64 20 49 
+              20 61 6D 
+              20 6C 65 
+              61 72 6E 
+              69 6E 67 
+              20 41 52 
+              4D 20 61 
+              73 73 65 
+              6D 62 6C 
+              79 21 00         DCB              "ENSE 352 is fun and I am learn
+ing ARM assembly!",0
+   99 0000008C                 ENDP
+  100 0000008C                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\lab3sample.d -o.\objects\lab3sample.o -I.\RTE\_Target_1 
+-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include -IC:\Keil_v5\ARM\
+CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 5
+25" --predefine="STM32F10X_MD_VL SETA 1" --list=.\listings\lab3sample.lst LAB3S
+AMPLE.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+RESET 00000000
+
+Symbol: RESET
+   Definitions
+      At line 10 in file LAB3SAMPLE.s
+   Uses
+      None
+Comment: RESET unused
+__Vectors 00000000
+
+Symbol: __Vectors
+   Definitions
+      At line 14 in file LAB3SAMPLE.s
+   Uses
+      At line 11 in file LAB3SAMPLE.s
+Comment: __Vectors used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+ALIGN 0000004E
+
+Symbol: ALIGN
+   Definitions
+      At line 60 in file LAB3SAMPLE.s
+   Uses
+      None
+Comment: ALIGN unused
+Awesome 00000004
+
+Symbol: Awesome
+   Definitions
+      At line 37 in file LAB3SAMPLE.s
+   Uses
+      At line 41 in file LAB3SAMPLE.s
+Comment: Awesome used once
+MYCODE 00000000
+
+Symbol: MYCODE
+   Definitions
+      At line 21 in file LAB3SAMPLE.s
+   Uses
+      None
+Comment: MYCODE unused
+Reset_Handler 00000000
+
+Symbol: Reset_Handler
+   Definitions
+      At line 27 in file LAB3SAMPLE.s
+   Uses
+      At line 15 in file LAB3SAMPLE.s
+      At line 24 in file LAB3SAMPLE.s
+      At line 52 in file LAB3SAMPLE.s
+
+anotherSub 0000004E
+
+Symbol: anotherSub
+   Definitions
+      At line 62 in file LAB3SAMPLE.s
+   Uses
+      None
+Comment: anotherSub unused
+factorial 00000054
+
+Symbol: factorial
+   Definitions
+      At line 78 in file LAB3SAMPLE.s
+   Uses
+      At line 47 in file LAB3SAMPLE.s
+Comment: factorial used once
+function1 0000004E
+
+Symbol: function1
+   Definitions
+      At line 61 in file LAB3SAMPLE.s
+   Uses
+      At line 45 in file LAB3SAMPLE.s
+Comment: function1 used once
+string1 0000001E
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: string1
+   Definitions
+      At line 56 in file LAB3SAMPLE.s
+   Uses
+      None
+Comment: string1 unused
+string2 0000005C
+
+Symbol: string2
+   Definitions
+      At line 97 in file LAB3SAMPLE.s
+   Uses
+      None
+Comment: string2 unused
+vowelCount 00000058
+
+Symbol: vowelCount
+   Definitions
+      At line 90 in file LAB3SAMPLE.s
+   Uses
+      At line 49 in file LAB3SAMPLE.s
+Comment: vowelCount used once
+10 symbols
+345 symbols in table
