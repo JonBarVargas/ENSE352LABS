@@ -1,2 +1,0 @@
-Dependencies for Project 'lab3', Target 'Target 1': (DO NOT MODIFY !)
-F (.\LAB3SAMPLE.s)(0x5D924A4A)(--cpu Cortex-M3 --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 525" --pd "STM32F10X_MD_VL SETA 1"--list .\listings\lab3sample.lst --xref -o .\objects\lab3sample.o --depend .\objects\lab3sample.d)
