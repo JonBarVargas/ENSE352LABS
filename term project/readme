@@ -1,0 +1,9 @@
+Whackamole 
+BY Jonathan Vargas 200389468
+12/06/2019
+
+This game displays a mole (a light that turns on) and the user must press the corresponding buttons
+to whack that mole.
+
+The Game starts in a wait state where the lights count up to 0 to 16 in binary and waits for
+the user to press any of the round buttons 
